@@ -1,0 +1,94 @@
+import SwiftUI
+
+struct ContentView: View {
+    @State private var number1: String = ""
+    @State private var number2: String = ""
+    @State private var result: String = ""
+
+    var body: some View {
+        VStack {
+            // Number 1 input
+            TextField("Sayı 1", text: $number1)
+                .keyboardType(.decimalPad)
+                .padding()
+                .border(Color.gray, width: 1)
+                .padding()
+
+            // Number 2 input
+            TextField("Sayı 2", text: $number2)
+                .keyboardType(.decimalPad)
+                .padding()
+                .border(Color.gray, width: 1)
+                .padding()
+
+            // Buttons for operations
+            HStack {
+                Button(action: {
+                    self.performOperation(.add)
+                }) {
+                    Text("Toplama")
+                }
+                .padding()
+                .border(Color.blue, width: 1)
+
+                Button(action: {
+                    self.performOperation(.subtract)
+                }) {
+                    Text("Çıkarma")
+                }
+                .padding()
+                .border(Color.blue, width: 1)
+
+                Button(action: {
+                    self.performOperation(.multiply)
+                }) {
+                    Text("Çarpma")
+                }
+                .padding()
+                .border(Color.blue, width: 1)
+
+                Button(action: {
+                    self.performOperation(.divide)
+                }) {
+                    Text("Bölme")
+                }
+                .padding()
+                .border(Color.blue, width: 1)
+            }
+            .padding()
+
+            // Result display
+            Text("Sonuç: \(result)")
+                .padding()
+        }
+        .padding()
+    }
+
+    private enum Operation {
+        case add, subtract, multiply, divide
+    }
+
+    private func performOperation(_ operation: Operation) {
+        guard let num1 = Double(number1), let num2 = Double(number2) else {
+            result = "Geçersiz giriş"
+            return
+        }
+
+        switch operation {
+        case .add:
+            result = String(num1 + num2)
+        case .subtract:
+            result = String(num1 - num2)
+        case .multiply:
+            result = String(num1 * num2)
+        case .divide:
+            result = num2 != 0 ? String(num1 / num2) : "Sıfıra bölme hatası"
+        }
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
